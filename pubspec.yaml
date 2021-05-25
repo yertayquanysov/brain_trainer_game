@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.0
   generate_unique_integers: ^0.0.3
+  get: ^4.1.4
 
 dev_dependencies:
   flutter_test:
