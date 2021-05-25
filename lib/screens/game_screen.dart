@@ -7,7 +7,7 @@ import 'package:gamx/repositories/game_repository.dart';
 import '../config.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key key}) : super(key: key);
+  const GameScreen({Key? key}) : super(key: key);
 
   @override
   _GameScreenState createState() => _GameScreenState();
@@ -43,7 +43,7 @@ class _GameScreenState extends State<GameScreen> {
 
             if (snapshot.hasData) {
               return Wrap(
-                children: snapshot.data,
+                children: snapshot.data!,
               );
             }
 

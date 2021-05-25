@@ -8,8 +8,8 @@ class GridItem extends StatelessWidget {
 
   GridItem({
     this.color = Colors.white,
-    @required this.index,
-    @required this.onPressed,
+    required this.index,
+    required this.onPressed,
   });
 
   @override

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/config.dart';
-import 'package:gamx/utils.dart';
 
 import '../object_model.dart';
 
@@ -14,13 +13,13 @@ abstract class GameRepository {
 
   void showClickableItems();
 
-  void setGameStream(StreamController streamController);
+  void setGameStream(StreamController<List<GridItem>> streamController);
 }
 
 class GameRepositoryImpl implements GameRepository {
   int gridCount = DEFAULT_GRID_COUNT;
 
-  StreamController<List<GridItem>> _streamController;
+  late StreamController<List<GridItem>> _streamController;
   List<ObjectModel> _generatedObjects = [];
   List<int> lastPositions = [];
   int successTapCount = 0;
@@ -29,7 +28,7 @@ class GameRepositoryImpl implements GameRepository {
   void setGridCount(int count) => gridCount = count;
 
   @override
-  void setGameStream(StreamController streamController) =>
+  void setGameStream(StreamController<List<GridItem>> streamController) =>
       _streamController = streamController;
 
   GameRepositoryImpl() {
@@ -60,17 +59,14 @@ class GameRepositoryImpl implements GameRepository {
 
   @override
   void showClickableItems() {
-
     successTapCount = 0;
-    lastPositions = generateItemPositions(positionCount: 3, max: gridCount);
+    lastPositions = [0, 1, 10];
 
-    final List<ObjectModel> cleanedObjects = clearActiveObjects();
+    final List<ObjectModel> newObjects = clearActiveObjects();
 
-    lastPositions.forEach(
-      (index) => cleanedObjects[index].isShowed = true,
-    );
+    lastPositions.forEach((index) => newObjects[index].isShowed = true);
 
-    _generatedObjects = cleanedObjects;
+    _generatedObjects = newObjects;
 
     generateGridItems();
   }

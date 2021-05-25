@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class SelectLevelItem extends StatelessWidget {
   final String name;
 
-  const SelectLevelItem({Key key, this.name}) : super(key: key);
+  const SelectLevelItem({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

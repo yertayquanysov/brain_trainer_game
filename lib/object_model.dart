@@ -6,7 +6,7 @@ class ObjectModel {
   bool isClicked;
 
   ObjectModel({
-    @required this.index,
+    required this.index,
     this.isShowed = false,
     this.isClicked = false,
   });
