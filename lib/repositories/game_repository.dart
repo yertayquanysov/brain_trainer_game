@@ -72,17 +72,16 @@ class GameRepositoryImpl implements GameRepository {
     generateGridItems();
   }
 
-  onGridTap(ObjectModel gridItem) {
-
+  void onGridTap(ObjectModel gridItem) {
     if (gridItem.isShowed && !gridItem.isClicked) {
       successTapCount++;
       _generatedObjects[gridItem.index].isClicked = true;
     }
 
-    showClickableItems();
+    print(successTapCount);
 
-    if (_generatedObjects.where((element) => element.isClicked).length >= 3) {
-
+    if (successTapCount >= 3) {
+      showClickableItems();
     }
   }
 }

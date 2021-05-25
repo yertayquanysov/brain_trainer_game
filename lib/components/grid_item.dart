@@ -14,15 +14,17 @@ class GridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: MediaQuery.of(context).size.width / 5,
-        height: MediaQuery.of(context).size.width / 5,
-        child: Card(
+    return Container(
+      width: MediaQuery.of(context).size.width / 5,
+      height: MediaQuery.of(context).size.width / 5,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Material(
           color: color,
-          margin: const EdgeInsets.all(5),
-          shadowColor: Colors.white10,
+          child: InkWell(
+            onTap: onPressed,
+            child: Container(),
+          ),
         ),
       ),
     );

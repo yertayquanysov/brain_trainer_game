@@ -41,8 +41,11 @@ class _GameScreenState extends State<GameScreen> {
               return Text(snapshot.error.toString());
             }
 
+
+
             if (snapshot.hasData) {
-              return Wrap(
+              return GridView.count(
+                crossAxisCount: 5,
                 children: snapshot.data!,
               );
             }
