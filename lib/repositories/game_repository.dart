@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/config.dart';
+import 'package:gamx/extensions.dart';
 
 import '../object_model.dart';
 
@@ -60,7 +61,7 @@ class GameRepositoryImpl implements GameRepository {
   @override
   void showClickableItems() {
     successTapCount = 0;
-    lastPositions = [0, 1, 10];
+    lastPositions = generateItemPositions(positionCount: 3, max: gridCount);
 
     final List<ObjectModel> newObjects = clearActiveObjects();
 
@@ -72,13 +73,16 @@ class GameRepositoryImpl implements GameRepository {
   }
 
   onGridTap(ObjectModel gridItem) {
+
     if (gridItem.isShowed && !gridItem.isClicked) {
+      successTapCount++;
       _generatedObjects[gridItem.index].isClicked = true;
     }
 
-    if (_generatedObjects.where((element) => element.isClicked).length ==
-        lastPositions.length) {
-      showClickableItems();
+    showClickableItems();
+
+    if (_generatedObjects.where((element) => element.isClicked).length >= 3) {
+
     }
   }
 }

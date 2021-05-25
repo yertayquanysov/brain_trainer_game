@@ -18,4 +18,13 @@ class ObjectModel {
       isClicked: false,
     );
   }
+
+  @override
+  String toString() {
+    return {
+      "index": index.toString(),
+      "isShowed": isShowed,
+      "isClicked": isClicked,
+    }.toString();
+  }
 }
