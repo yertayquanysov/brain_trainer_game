@@ -37,11 +37,10 @@ class _GameScreenState extends State<GameScreen> {
         child: StreamBuilder<List<GridItem>>(
           stream: _streamController.stream,
           builder: (context, snapshot) {
+
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
-
-
 
             if (snapshot.hasData) {
               return GridView.count(

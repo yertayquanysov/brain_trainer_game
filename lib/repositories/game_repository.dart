@@ -18,6 +18,7 @@ abstract class GameRepository {
 }
 
 class GameRepositoryImpl implements GameRepository {
+
   int gridCount = DEFAULT_GRID_COUNT;
 
   late StreamController<List<GridItem>> _streamController;
@@ -77,8 +78,6 @@ class GameRepositoryImpl implements GameRepository {
       successTapCount++;
       _generatedObjects[gridItem.index].isClicked = true;
     }
-
-    print(successTapCount);
 
     if (successTapCount >= 3) {
       showClickableItems();
