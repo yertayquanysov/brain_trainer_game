@@ -14,15 +14,14 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+
   final GameRepository _gameRepository = GameRepositoryImpl();
-  final StreamController<List<GridItem>> _streamController = StreamController();
 
   @override
   void initState() {
     super.initState();
 
-    _gameRepository.setGridCount(DEFAULT_GRID_COUNT);
-    _gameRepository.setGameStream(_streamController);
+    _gameRepository.setGridCount(defaultGridCount);
     _gameRepository.generateGridItems();
   }
 
@@ -35,9 +34,8 @@ class _GameScreenState extends State<GameScreen> {
       body: Container(
         height: MediaQuery.of(context).size.width,
         child: StreamBuilder<List<GridItem>>(
-          stream: _streamController.stream,
+          stream: _gameRepository.stream(),
           builder: (context, snapshot) {
-
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
@@ -62,7 +60,7 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    _streamController.close();
+    _gameRepository.dispose();
     super.dispose();
   }
 }

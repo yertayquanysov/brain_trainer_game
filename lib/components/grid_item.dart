@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 
 class GridItem extends StatelessWidget {
   final Color color;
-  final int index;
   final VoidCallback onPressed;
 
   GridItem({
     this.color = Colors.white,
-    required this.index,
     required this.onPressed,
   });
 

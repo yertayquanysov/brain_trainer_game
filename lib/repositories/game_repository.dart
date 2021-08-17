@@ -5,7 +5,7 @@ import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/config.dart';
 import 'package:gamx/extensions.dart';
 
-import '../object_model.dart';
+import '../models/object_model.dart';
 
 abstract class GameRepository {
   void generateGridItems();
@@ -14,14 +14,16 @@ abstract class GameRepository {
 
   void showClickableItems();
 
-  void setGameStream(StreamController<List<GridItem>> streamController);
+  Stream<List<GridItem>> stream();
+
+  void dispose();
 }
 
 class GameRepositoryImpl implements GameRepository {
+  int gridCount = defaultGridCount;
 
-  int gridCount = DEFAULT_GRID_COUNT;
+  final StreamController<List<GridItem>> _streamController = StreamController();
 
-  late StreamController<List<GridItem>> _streamController;
   List<ObjectModel> _generatedObjects = [];
   List<int> lastPositions = [];
   int successTapCount = 0;
@@ -29,30 +31,9 @@ class GameRepositoryImpl implements GameRepository {
   @override
   void setGridCount(int count) => gridCount = count;
 
-  @override
-  void setGameStream(StreamController<List<GridItem>> streamController) =>
-      _streamController = streamController;
-
   GameRepositoryImpl() {
-    _generatedObjects = List.generate(
-      gridCount,
-      (idx) => ObjectModel(index: idx),
-    ).toList();
-  }
-
-  @override
-  void generateGridItems() {
-    final gridItems = _generatedObjects
-        .map(
-          (e) => GridItem(
-            index: e.index,
-            color: e.isShowed ? Colors.greenAccent : Colors.white,
-            onPressed: () => onGridTap(e),
-          ),
-        )
-        .toList();
-
-    _streamController.sink.add(gridItems);
+    _generatedObjects =
+        List.generate(gridCount, (idx) => ObjectModel(index: idx)).toList();
   }
 
   List<ObjectModel> clearActiveObjects() {
@@ -60,13 +41,23 @@ class GameRepositoryImpl implements GameRepository {
   }
 
   @override
+  Stream<List<GridItem>> stream() => _streamController.stream;
+
+  @override
   void showClickableItems() {
     successTapCount = 0;
+
     lastPositions = generateItemPositions(positionCount: 3, max: gridCount);
+
+    print("showClickableItems: $lastPositions");
 
     final List<ObjectModel> newObjects = clearActiveObjects();
 
-    lastPositions.forEach((index) => newObjects[index].isShowed = true);
+    lastPositions.forEach(
+      (index) => newObjects[index].isShowed = true,
+    );
+
+    print(newObjects.where((element) => element.isShowed == true).length);
 
     _generatedObjects = newObjects;
 
@@ -82,5 +73,23 @@ class GameRepositoryImpl implements GameRepository {
     if (successTapCount >= 3) {
       showClickableItems();
     }
+  }
+
+  @override
+  void generateGridItems() {
+    final gridItems = _generatedObjects
+        .map(
+          (e) => GridItem(
+            color: e.isShowed ? Colors.greenAccent : Colors.white,
+            onPressed: () => onGridTap(e),
+          ),
+        )
+        .toList();
+    _streamController.sink.add(gridItems);
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
   }
 }
