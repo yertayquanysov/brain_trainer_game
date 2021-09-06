@@ -11,7 +11,9 @@ class SelectLevelScreen extends StatelessWidget {
         title: const Text("Level"),
       ),
       body: Column(
-        children: [SelectLevelItem(name: "10x10")],
+        children: [
+          SelectLevelItem(name: "10x10"),
+        ],
       ),
     );
   }
