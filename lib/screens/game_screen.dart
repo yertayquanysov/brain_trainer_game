@@ -7,6 +7,7 @@ import 'package:gamx/components/game_progress_bar.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
+import 'package:get/get.dart';
 
 import '../config.dart';
 
@@ -18,6 +19,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+
   final GameRepository _gameRepository = GameRepositoryImpl();
   late final GameCubit _gameCubit;
 
@@ -38,8 +40,16 @@ class _GameScreenState extends State<GameScreen> {
         title: const Text(appBarText),
       ),
       body: Container(
-        child: BlocBuilder(
+        child: BlocConsumer(
           bloc: _gameCubit,
+          listener: (BuildContext context, Object? state) {
+            if (state is ItemTapError) {
+              Get.showSnackbar(GetBar(
+                message: "Error tapped",
+                duration: Duration(milliseconds: 800),
+              ));
+            }
+          },
           builder: (BuildContext context, state) {
             if (state is GameLoaded) {
               return Column(
@@ -59,7 +69,7 @@ class _GameScreenState extends State<GameScreen> {
                       crossAxisCount: 5,
                       children: mappingItems(state.items),
                     ),
-                  ),A
+                  ),
                 ],
               );
             }

@@ -7,7 +7,7 @@ import '../models/object_model.dart';
 abstract class GameRepository {
   void setGridCount(int count);
 
-  void onGridTap(ObjectModel gridItem, VoidCallback onRefresh);
+  void onGridTap(ObjectModel gridItem, Function(bool isError) onRefresh);
 
   List<ObjectModel> showClickableItems();
 
@@ -40,10 +40,13 @@ class GameRepositoryImpl implements GameRepository {
   @override
   List<ObjectModel> showClickableItems() {
     successTapCount = 0;
-    lastActivePositions =
-        generateItemPositions(positionCount: 3, max: gridCount);
+    lastActivePositions = generateItemPositions(positionCount: 3, max: gridCount);
+
+    print(lastActivePositions);
 
     final List<ObjectModel> newObjects = clearActiveObjects();
+
+    logger.w(newObjects);
 
     lastActivePositions.forEach(
       (index) => newObjects[index].isShowed = true,
@@ -54,15 +57,17 @@ class GameRepositoryImpl implements GameRepository {
     return _generatedObjects;
   }
 
-  void onGridTap(ObjectModel gridItem, VoidCallback onRefresh) {
+  void onGridTap(ObjectModel gridItem, Function(bool isError) onRefresh) {
     if (gridItem.isShowed && !gridItem.isClicked) {
       successTapCount++;
       _generatedObjects[gridItem.index].isClicked = true;
+    } else {
+      onRefresh(true);
     }
 
     if (successTapCount >= 3) {
       successWinCount += 1;
-      onRefresh();
+      onRefresh(false);
     }
   }
 }
