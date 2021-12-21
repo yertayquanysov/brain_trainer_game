@@ -10,10 +10,15 @@ class SelectLevelScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Қосымшаның аты тұрады"),
       ),
-      body: Column(
-        children: [
-          SelectLevelItem(name: "10x10"),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          runSpacing: 10,
+          spacing: 10,
+          children: List.generate(30, (index) => index + 1)
+              .map((e) => SelectLevelItem(name: e.toString()))
+              .toList(),
+        ),
       ),
     );
   }

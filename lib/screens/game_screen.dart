@@ -21,6 +21,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+
   final GameRepository _gameRepository = GameRepositoryImpl();
   late final GameCubit _gameCubit;
 
@@ -32,10 +33,6 @@ class _GameScreenState extends State<GameScreen> {
     _gameCubit = GameCubit(_gameRepository);
 
     _gameCubit.load();
-
-    Timer(Duration(seconds: 10), () {
-      _gameCubit.gameOver();
-    });
   }
 
   @override

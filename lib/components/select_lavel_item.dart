@@ -9,14 +9,20 @@ class SelectLevelItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      child: Text(
-        name,
-        style: TextStyle(
-          fontSize: 18,
+    return ElevatedButton(
+      onPressed: () => Get.to(GameScreen()),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.deepOrange),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          name,
+          style: TextStyle(
+            fontSize: 25,
+          ),
         ),
       ),
-      onPressed: () => Get.to(GameScreen()),
     );
   }
 }

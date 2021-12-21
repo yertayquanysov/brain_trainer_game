@@ -7,13 +7,13 @@ import 'package:gamx/repositories/game_repository.dart';
 import 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
+
   final GameRepository _gameRepository;
 
   GameCubit(this._gameRepository) : super(GameLoading());
 
   void onTapped(ObjectModel object) {
-
-    if(object.isColored) return;
+    if (object.isColored) return;
 
     _gameRepository.onGridTap(object, (isError) {
       if (isError) {
