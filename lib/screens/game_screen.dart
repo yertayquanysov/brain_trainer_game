@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamx/bloc/game_cubit.dart';
+import 'package:gamx/bloc/game_state.dart';
+import 'package:gamx/components/game_progress_bar.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
@@ -14,8 +18,9 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-
   final GameRepository _gameRepository = GameRepositoryImpl();
+
+  late final GameCubit _gameCubit;
 
   @override
   void initState() {
@@ -23,6 +28,8 @@ class _GameScreenState extends State<GameScreen> {
 
     _gameRepository.setGridCount(defaultGridCount);
     _gameRepository.generateGridItems();
+
+    _gameCubit = GameCubit(_gameRepository);
   }
 
   @override
@@ -32,35 +39,28 @@ class _GameScreenState extends State<GameScreen> {
         title: const Text(appBarText),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.width,
-        child: StreamBuilder<List<GridItem>>(
-          stream: _gameRepository.stream(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-
-            if (snapshot.hasData) {
+        child: BlocBuilder(
+          bloc: _gameCubit,
+          builder: (BuildContext context, state) {
+            if (state is GameLoaded) {
               return GridView.count(
                 crossAxisCount: 5,
-                children: snapshot.data!,
+                children: state.items,
               );
             }
 
-            return const Text("No");
+            if (state is GameTimeOut) {
+              return Text("Finished");
+            }
+
+            return GameProgressBar();
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.refresh),
-        onPressed: () => _gameRepository.showClickableItems(),
+        onPressed: () => _gameCubit.load(),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _gameRepository.dispose();
-    super.dispose();
   }
 }

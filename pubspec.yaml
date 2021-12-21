@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  generate_unique_numbers: ^0.0.4
   get: ^4.1.4
+  flutter_bloc: ^8.0.0
 
 dev_dependencies:
   flutter_test:
