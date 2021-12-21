@@ -9,7 +9,7 @@ class ObjectModel {
     this.isClicked = false,
   });
 
-  ObjectModel changeState() {
+  ObjectModel resetState() {
     return ObjectModel(
       index: this.index,
       isShowed: false,

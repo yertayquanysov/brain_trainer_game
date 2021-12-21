@@ -1,11 +1,12 @@
-import 'package:gamx/components/grid_item.dart';
+import 'package:gamx/models/object_model.dart';
 
 abstract class GameState {}
 
 class GameLoaded extends GameState {
-  final List<GridItem> items;
+  final List<ObjectModel> items;
+  final int score;
 
-  GameLoaded(this.items);
+  GameLoaded(this.items, this.score);
 }
 
 class GameTimeOut extends GameState {}

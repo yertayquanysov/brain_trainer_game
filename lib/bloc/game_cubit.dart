@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
 import 'game_state.dart';
@@ -8,11 +9,18 @@ class GameCubit extends Cubit<GameState> {
 
   GameCubit(this._gameRepository) : super(GameLoading());
 
+  void onTapped(ObjectModel object) {
+    _gameRepository.onGridTap(object, () {
+      load();
+    });
+  }
+
   void load() {
     emit(GameLoading());
 
-    final items = _gameRepository.generateGridItems();
+    final items = _gameRepository.showClickableItems();
+    final score = _gameRepository.getScore();
 
-    emit(GameLoaded(items));
+    emit(GameLoaded(items, score));
   }
 }
