@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/bloc/game_cubit.dart';
 import 'package:gamx/bloc/game_state.dart';
+import 'package:gamx/components/game_finished.dart';
 import 'package:gamx/components/game_progress_bar.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/models/object_model.dart';
@@ -18,7 +19,6 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final GameRepository _gameRepository = GameRepositoryImpl();
-
   late final GameCubit _gameCubit;
 
   @override
@@ -27,6 +27,8 @@ class _GameScreenState extends State<GameScreen> {
 
     _gameRepository.setGridCount(defaultGridCount);
     _gameCubit = GameCubit(_gameRepository);
+
+    _gameCubit.load();
   }
 
   @override
@@ -57,22 +59,18 @@ class _GameScreenState extends State<GameScreen> {
                       crossAxisCount: 5,
                       children: mappingItems(state.items),
                     ),
-                  ),
+                  ),A
                 ],
               );
             }
 
             if (state is GameTimeOut) {
-              return Text("Finished");
+              return GameFinished();
             }
 
             return GameProgressBar();
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.refresh),
-        onPressed: () => _gameCubit.load(),
       ),
     );
   }
