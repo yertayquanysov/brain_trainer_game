@@ -19,7 +19,7 @@ class App extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
-          titleTextStyle: TextStyle(
+          titleTextStyle: GoogleFonts.ubuntu(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,

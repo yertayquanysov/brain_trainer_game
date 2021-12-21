@@ -42,7 +42,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appBarText),
+        title: const Text("Миды жаттықтыру"),
       ),
       body: Container(
         child: BlocConsumer(
@@ -50,7 +50,7 @@ class _GameScreenState extends State<GameScreen> {
           listener: (BuildContext context, Object? state) {
             if (state is ItemTapError) {
               Get.showSnackbar(GetBar(
-                message: "Error tapped",
+                message: "Қате!",
                 duration: Duration(milliseconds: 800),
               ));
             }

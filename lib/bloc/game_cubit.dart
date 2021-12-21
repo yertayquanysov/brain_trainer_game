@@ -12,6 +12,9 @@ class GameCubit extends Cubit<GameState> {
   GameCubit(this._gameRepository) : super(GameLoading());
 
   void onTapped(ObjectModel object) {
+
+    if(object.isColored) return;
+
     _gameRepository.onGridTap(object, (isError) {
       if (isError) {
         emit(ItemTapError());
