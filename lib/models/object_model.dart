@@ -1,28 +1,37 @@
 class ObjectModel {
   final int index;
-  bool isShowed;
-  bool isClicked;
+  bool isActive;
+  bool isTapped;
+  bool isColored;
 
   ObjectModel({
     required this.index,
-    this.isShowed = false,
-    this.isClicked = false,
+    this.isActive = false,
+    this.isTapped = false,
+    this.isColored = false,
   });
 
   ObjectModel resetState() {
     return ObjectModel(
       index: this.index,
-      isShowed: false,
-      isClicked: false,
+      isActive: false,
+      isTapped: false,
+      isColored: false,
     );
+  }
+
+  ObjectModel hideColor(){
+    this.isColored = false;
+    return this;
   }
 
   @override
   String toString() {
     return {
       "index": index.toString(),
-      "isShowed": isShowed,
-      "isClicked": isClicked,
+      "isActive": isActive,
+      "isTapped": isTapped,
+      "isColored": isColored,
     }.toString();
   }
 }

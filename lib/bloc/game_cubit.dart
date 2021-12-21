@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
@@ -26,5 +28,12 @@ class GameCubit extends Cubit<GameState> {
     final score = _gameRepository.getScore();
 
     emit(GameLoaded(items, score));
+
+    Timer(Duration(seconds: 3), () {
+      final noColorItems = items.map((e) => e.hideColor()).toList();
+      emit(GameLoaded(noColorItems, score));
+    });
   }
+
+  void hideShowedColors() {}
 }

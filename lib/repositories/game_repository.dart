@@ -40,17 +40,15 @@ class GameRepositoryImpl implements GameRepository {
   @override
   List<ObjectModel> showClickableItems() {
     successTapCount = 0;
-    lastActivePositions = generateItemPositions(positionCount: 3, max: gridCount);
-
-    print(lastActivePositions);
+    lastActivePositions =
+        generateItemPositions(positionCount: 3, max: gridCount);
 
     final List<ObjectModel> newObjects = clearActiveObjects();
 
-    logger.w(newObjects);
-
-    lastActivePositions.forEach(
-      (index) => newObjects[index].isShowed = true,
-    );
+    lastActivePositions.forEach((index) {
+      newObjects[index].isActive = true;
+      newObjects[index].isColored = true;
+    });
 
     _generatedObjects = newObjects;
 
@@ -58,9 +56,9 @@ class GameRepositoryImpl implements GameRepository {
   }
 
   void onGridTap(ObjectModel gridItem, Function(bool isError) onRefresh) {
-    if (gridItem.isShowed && !gridItem.isClicked) {
+    if (gridItem.isActive && !gridItem.isTapped) {
       successTapCount++;
-      _generatedObjects[gridItem.index].isClicked = true;
+      _generatedObjects[gridItem.index].isTapped = true;
     } else {
       onRefresh(true);
     }
