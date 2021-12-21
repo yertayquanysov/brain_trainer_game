@@ -16,6 +16,7 @@ class SelectLevelItem extends StatelessWidget {
       child: InkWell(
         onTap: () => Get.to(GameScreen()),
         child: Card(
+          color: Colors.deepOrange,
           shape: SuperellipseShape(
             borderRadius: BorderRadius.circular(30),
           ),
@@ -25,6 +26,7 @@ class SelectLevelItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 25,
+                color: Colors.white,
               ),
             ),
           ),
