@@ -35,5 +35,7 @@ class GameCubit extends Cubit<GameState> {
     });
   }
 
-  void hideShowedColors() {}
+  void gameOver() {
+    emit(GameTimeOut());
+  }
 }

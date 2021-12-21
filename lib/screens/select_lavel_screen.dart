@@ -8,7 +8,7 @@ class SelectLevelScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Level"),
+        title: const Text("Қосымшаның аты тұрады"),
       ),
       body: Column(
         children: [

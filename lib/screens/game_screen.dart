@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/bloc/game_cubit.dart';
@@ -30,6 +32,10 @@ class _GameScreenState extends State<GameScreen> {
     _gameCubit = GameCubit(_gameRepository);
 
     _gameCubit.load();
+
+    Timer(Duration(seconds: 10), () {
+      _gameCubit.gameOver();
+    });
   }
 
   @override
@@ -74,7 +80,9 @@ class _GameScreenState extends State<GameScreen> {
             }
 
             if (state is GameTimeOut) {
-              return GameFinished();
+              return GameFinished(
+                score: 1,
+              );
             }
 
             return GameProgressBar();
