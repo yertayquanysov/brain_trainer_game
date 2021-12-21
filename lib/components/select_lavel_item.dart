@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamx/screens/game_screen.dart';
 import 'package:get/get.dart';
+import 'package:superellipse_shape/superellipse_shape.dart';
 
 class SelectLevelItem extends StatelessWidget {
   final String name;
@@ -9,17 +10,23 @@ class SelectLevelItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => Get.to(GameScreen()),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.deepOrange),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          name,
-          style: TextStyle(
-            fontSize: 25,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width,
+      child: InkWell(
+        onTap: () => Get.to(GameScreen()),
+        child: Card(
+          shape: SuperellipseShape(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Center(
+            child: Text(
+              name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),

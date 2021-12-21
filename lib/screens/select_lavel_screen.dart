@@ -12,9 +12,8 @@ class SelectLevelScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          runSpacing: 10,
-          spacing: 10,
+        child: GridView.count(
+          crossAxisCount: 3,
           children: List.generate(30, (index) => index + 1)
               .map((e) => SelectLevelItem(name: e.toString()))
               .toList(),
