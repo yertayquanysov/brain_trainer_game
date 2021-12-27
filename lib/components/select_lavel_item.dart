@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:superellipse_shape/superellipse_shape.dart';
 
 class SelectLevelItem extends StatelessWidget {
-  final String name;
-
   const SelectLevelItem({Key? key, required this.name}) : super(key: key);
+
+  final String name;
 
   @override
   Widget build(BuildContext context) {

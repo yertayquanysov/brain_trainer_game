@@ -21,7 +21,6 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-
   final GameRepository _gameRepository = GameRepositoryImpl();
   late final GameCubit _gameCubit;
 
@@ -92,9 +91,22 @@ class _GameScreenState extends State<GameScreen> {
   List<Widget> mappingItems(List<ObjectModel> items) {
     return items.map((grid) {
       return GridItem(
-        color: grid.isColored ? Colors.greenAccent : Colors.white,
+        color: changeColor(grid),
         onPressed: () => _gameCubit.onTapped(grid),
       );
     }).toList();
+  }
+
+  Color changeColor(ObjectModel grid) {
+
+    if (grid.isColored && !grid.isError) {
+      return Colors.greenAccent;
+    }
+
+    if (grid.isError) {
+      return Colors.redAccent;
+    }
+
+    return Colors.white;
   }
 }

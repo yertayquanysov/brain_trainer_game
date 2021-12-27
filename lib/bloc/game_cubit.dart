@@ -1,25 +1,43 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamx/extensions.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
 import 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
-
   final GameRepository _gameRepository;
+
+  List<ObjectModel> _items = [];
+  int _score = 0;
+
+  bool _clickDisabled = true;
 
   GameCubit(this._gameRepository) : super(GameLoading());
 
   void onTapped(ObjectModel object) {
-    if (object.isColored) return;
+    if (object.isColored || object.isError || _clickDisabled) return;
 
     _gameRepository.onGridTap(object, (isError) {
       if (isError) {
-        emit(ItemTapError());
+        showError(object.index);
+        return;
       }
 
+      load();
+    });
+  }
+
+  void showError(int errorTapIndex) {
+
+    _clickDisabled = true;
+    _items[errorTapIndex].isError = true;
+
+    emit(GameLoaded(_items, _score));
+
+    Timer(Duration(seconds: 2), () {
       load();
     });
   }
@@ -27,14 +45,15 @@ class GameCubit extends Cubit<GameState> {
   void load() {
     emit(GameLoading());
 
-    final items = _gameRepository.showClickableItems();
-    final score = _gameRepository.getScore();
+    _items = _gameRepository.showClickableItems();
+    _score = _gameRepository.getScore();
 
-    emit(GameLoaded(items, score));
+    emit(GameLoaded(_items, _score));
 
-    Timer(Duration(seconds: 3), () {
-      final noColorItems = items.map((e) => e.hideColor()).toList();
-      emit(GameLoaded(noColorItems, score));
+    Timer(Duration(seconds: 2), () {
+      final noColorItems = _items.map((e) => e.hideColor()).toList();
+      _clickDisabled = false;
+      emit(GameLoaded(noColorItems, _score));
     });
   }
 

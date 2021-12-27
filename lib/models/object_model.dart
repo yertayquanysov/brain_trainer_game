@@ -3,12 +3,14 @@ class ObjectModel {
   bool isActive;
   bool isTapped;
   bool isColored;
+  bool isError;
 
   ObjectModel({
     required this.index,
     this.isActive = false,
     this.isTapped = false,
     this.isColored = false,
+    this.isError = false,
   });
 
   ObjectModel resetState() {
@@ -17,10 +19,17 @@ class ObjectModel {
       isActive: false,
       isTapped: false,
       isColored: false,
+      isError: false,
     );
   }
 
-  ObjectModel hideColor(){
+  Object errorTap() {
+    this.isError = true;
+    this.isColored = false;
+    return this;
+  }
+
+  ObjectModel hideColor() {
     this.isColored = false;
     return this;
   }
