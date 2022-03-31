@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +20,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+
   final GameRepository _gameRepository = GameRepositoryImpl();
   late final GameCubit _gameCubit;
 
@@ -76,9 +76,7 @@ class _GameScreenState extends State<GameScreen> {
             }
 
             if (state is GameTimeOut) {
-              return GameFinished(
-                score: 1,
-              );
+              return GameFinished(score: 1);
             }
 
             return GameProgressBar();
@@ -98,7 +96,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Color changeColor(ObjectModel grid) {
-
     if (grid.isColored && !grid.isError) {
       return Colors.greenAccent;
     }

@@ -31,13 +31,12 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void showError(int errorTapIndex) {
-
     _clickDisabled = true;
     _items[errorTapIndex].isError = true;
 
     emit(GameLoaded(_items, _score));
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(milliseconds: 300), () {
       load();
     });
   }
@@ -51,9 +50,13 @@ class GameCubit extends Cubit<GameState> {
     emit(GameLoaded(_items, _score));
 
     Timer(Duration(seconds: 2), () {
-      final noColorItems = _items.map((e) => e.hideColor()).toList();
+      // TODO: fix
+      final noColoredItems = _items.map((e) => e..isColored = false).toList();
+
+      logger.w(_items.where((element) => element.isColored).length);
+
       _clickDisabled = false;
-      emit(GameLoaded(noColorItems, _score));
+      emit(GameLoaded(noColoredItems, _score));
     });
   }
 
