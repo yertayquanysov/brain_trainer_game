@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/bloc/game_cubit.dart';
+import 'package:gamx/bloc/game_event.dart';
 import 'package:gamx/bloc/game_state.dart';
 import 'package:gamx/components/game_finished.dart';
 import 'package:gamx/components/game_progress_bar.dart';
 import 'package:gamx/components/grid_item.dart';
+import 'package:gamx/components/point.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,6 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-
   final GameRepository _gameRepository = GameRepositoryImpl();
   late final GameCubit _gameCubit;
 
@@ -30,8 +30,7 @@ class _GameScreenState extends State<GameScreen> {
 
     _gameRepository.setGridCount(defaultGridCount);
     _gameCubit = GameCubit(_gameRepository);
-
-    _gameCubit.load();
+    _gameCubit.add(LoadGame());
   }
 
   @override
@@ -56,15 +55,7 @@ class _GameScreenState extends State<GameScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Text(
-                      "Бал: " + state.score.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
+                  Point(score: state.score),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 5,
