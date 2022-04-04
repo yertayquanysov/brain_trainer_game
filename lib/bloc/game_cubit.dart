@@ -13,6 +13,7 @@ class GameCubit extends Bloc<GameEvent, GameState> {
   final GameRepository _gameRepository;
 
   List<ObjectModel> _items = [];
+  List<ObjectModel> _activeCells = [];
   int _score = 0;
 
   bool _clickDisabled = true;
@@ -23,48 +24,62 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     on<GameEnd>((event, emit) {
       emit(GameTimeOut());
     });
+
+    on<GenerateNewCells>((event, emit) {
+
+      _items = _gameRepository.showClickableItems();
+      _activeCells = _items.where((cell) => cell.isActive == true).toList();
+      _score = _gameRepository.getScore();
+
+      add(UpdateCells());
+    });
+
+    on<UpdateCells>((event, emit) {
+      emit(GameLoaded(_items, _score));
+    });
+
+    on<ClearCells>(clearShowedCells);
+
+    on<ItemTapped>(checkTappedCell);
   }
 
-  void onTapped(ObjectModel object) {
-    if (object.isColored || object.isError || _clickDisabled) return;
+  @override
+  void onEvent(GameEvent event) {
+    super.onEvent(event);
 
-    _gameRepository.onGridTap(object, (isError) {
-      if (isError) {
-        showError(object.index);
-        return;
-      }
-
-      add(LoadGame());
-    });
-  }
-
-  void showError(int errorTapIndex) {
-    _clickDisabled = true;
-    _items[errorTapIndex].isError = true;
-
-    add(LoadGame());
-
-    Timer(Duration(milliseconds: 300), () {
-      add(LoadGame());
-    });
+    if (event is GenerateNewCells) {
+      add(ClearCells());
+    }
   }
 
   void loadGame(event, emit) {
-    emit(GameLoading());
+    add(GenerateNewCells());
+  }
 
-    _items = _gameRepository.showClickableItems();
-    _score = _gameRepository.getScore();
+  void clearShowedCells(event, emit) async {
+    await Future.delayed(Duration(seconds: 2));
 
-    emit(GameLoaded(_items, _score));
+    _items = _items.map((e) => e..isColored = false).toList();
+    _clickDisabled = false;
 
-    Timer(Duration(seconds: 2), () {
-      // TODO: fix
-      final noColoredItems = _items.map((e) => e..isColored = false).toList();
+    add(UpdateCells());
+  }
 
-      logger.w(_items.where((element) => element.isColored).length);
+  void checkTappedCell(event, emit) {
+    final ObjectModel tappedCell = event.cell;
 
-      _clickDisabled = false;
-      emit(GameLoaded(noColoredItems, _score));
+    if (tappedCell.isColored || tappedCell.isError || _clickDisabled) return;
+
+    if (_activeCells.contains(tappedCell)) {
+      _items[tappedCell.index].isColored = true;
+    } else {
+      _items[tappedCell.index].isError = true;
+    }
+
+    add(UpdateCells());
+
+    _gameRepository.onGridTap(tappedCell, () {
+      add(GenerateNewCells());
     });
   }
 }

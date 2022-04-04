@@ -7,7 +7,7 @@ import '../models/object_model.dart';
 abstract class GameRepository {
   void setGridCount(int count);
 
-  void onGridTap(ObjectModel gridItem, Function(bool isError) onRefresh);
+  void onGridTap(ObjectModel gridItem, VoidCallback onRefresh);
 
   List<ObjectModel> showClickableItems();
 
@@ -20,8 +20,9 @@ class GameRepositoryImpl implements GameRepository {
   List<ObjectModel> _generatedObjects = [];
   List<int> lastActivePositions = [];
 
-  int successTapCount = 0;
-  int successWinCount = 0;
+  int _successTapCount = 0;
+  int _successWinCount = 0;
+  int _failedTapCount = 0;
 
   @override
   void setGridCount(int count) => gridCount = count;
@@ -31,7 +32,7 @@ class GameRepositoryImpl implements GameRepository {
         List.generate(gridCount, (idx) => ObjectModel(index: idx)).toList();
   }
 
-  int getScore() => successWinCount;
+  int getScore() => _successWinCount;
 
   List<ObjectModel> clearActiveObjects() {
     return _generatedObjects.map((e) => e.resetState()).toList();
@@ -39,7 +40,9 @@ class GameRepositoryImpl implements GameRepository {
 
   @override
   List<ObjectModel> showClickableItems() {
-    successTapCount = 0;
+    _successTapCount = 0;
+    _failedTapCount = 0;
+
     lastActivePositions =
         generateItemPositions(positionCount: 3, max: gridCount);
 
@@ -55,17 +58,23 @@ class GameRepositoryImpl implements GameRepository {
     return _generatedObjects;
   }
 
-  void onGridTap(ObjectModel gridItem, Function(bool isError) onRefresh) {
-    if (gridItem.isActive && !gridItem.isTapped) {
-      successTapCount++;
-      _generatedObjects[gridItem.index].isTapped = true;
+  void onGridTap(ObjectModel cell, VoidCallback onRefresh) {
+    if (cell.isActive && !cell.isTapped) {
+      _successTapCount += 1;
+      _generatedObjects[cell.index].isTapped = true;
     } else {
-      onRefresh(true);
+      _failedTapCount += 1;
     }
 
-    if (successTapCount >= 3) {
-      successWinCount += 1;
-      onRefresh(false);
+    if (_failedTapCount == 2) {
+      onRefresh();
+    }
+
+    logger.i(_failedTapCount);
+
+    if (_successTapCount == 3) {
+      _successWinCount += 1;
+      onRefresh();
     }
   }
 }

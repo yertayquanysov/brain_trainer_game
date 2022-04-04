@@ -1,4 +1,6 @@
-class ObjectModel {
+import 'package:equatable/equatable.dart';
+
+class ObjectModel extends Equatable {
   final int index;
   bool isActive;
   bool isTapped;
@@ -43,4 +45,7 @@ class ObjectModel {
       "isColored": isColored,
     }.toString();
   }
+
+  @override
+  List<Object?> get props => [index];
 }

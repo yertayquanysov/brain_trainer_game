@@ -78,16 +78,17 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   List<Widget> mappingItems(List<ObjectModel> items) {
-    return items.map((grid) {
+    return items.map((cell) {
       return GridItem(
-        color: changeColor(grid),
-        onPressed: () => _gameCubit.onTapped(grid),
+        color: changeColor(cell),
+        onPressed: () => _gameCubit.add(ItemTapped(cell)),
       );
     }).toList();
   }
 
   Color changeColor(ObjectModel grid) {
-    if (grid.isColored && !grid.isError) {
+
+    if (grid.isColored) {
       return Colors.greenAccent;
     }
 
