@@ -49,8 +49,10 @@ class GameRepositoryImpl implements GameRepository {
     final List<ObjectModel> newObjects = clearActiveObjects();
 
     lastActivePositions.forEach((index) {
-      newObjects[index].isActive = true;
-      newObjects[index].isColored = true;
+      newObjects[index].copyWith(
+        isActive: true,
+        isColored: true,
+      );
     });
 
     _generatedObjects = newObjects;
@@ -61,7 +63,7 @@ class GameRepositoryImpl implements GameRepository {
   void onGridTap(ObjectModel cell, VoidCallback onRefresh) {
     if (cell.isActive && !cell.isTapped) {
       _successTapCount += 1;
-      _generatedObjects[cell.index].isTapped = true;
+      _generatedObjects[cell.index].copyWith(isTapped: true);
     } else {
       _failedTapCount += 1;
     }
