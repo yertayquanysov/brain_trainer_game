@@ -4,6 +4,7 @@ import 'package:gamx/bloc/game_cubit.dart';
 import 'package:gamx/bloc/game_event.dart';
 import 'package:gamx/bloc/game_state.dart';
 import 'package:gamx/components/game_finished.dart';
+import 'package:gamx/components/game_info.dart';
 import 'package:gamx/components/game_progress_bar.dart';
 import 'package:gamx/components/grid_item.dart';
 import 'package:gamx/components/point.dart';
@@ -51,6 +52,11 @@ class _GameScreenState extends State<GameScreen> {
             }
           },
           builder: (BuildContext context, state) {
+
+            if (state is GameInfo) {
+              return GameInfoWidget();
+            }
+
             if (state is GameLoaded) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +93,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Color changeColor(ObjectModel grid) {
-
     if (grid.isColored) {
       return Colors.greenAccent;
     }

@@ -4,7 +4,11 @@ import 'package:get/get.dart';
 import 'package:superellipse_shape/superellipse_shape.dart';
 
 class SelectLevelItem extends StatelessWidget {
-  const SelectLevelItem({Key? key, required this.name}) : super(key: key);
+  
+  const SelectLevelItem({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   final String name;
 

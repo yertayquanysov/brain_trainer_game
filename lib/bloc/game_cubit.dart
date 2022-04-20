@@ -24,11 +24,14 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     });
 
     on<GenerateNewCells>((event, emit) {
+
       _items = _gameRepository.showClickableItems();
       _activeCells = _items.where((cell) => cell.isActive == true).toList();
       _score = _gameRepository.getScore();
 
-      add(UpdateCells());
+      Timer(Duration(seconds: 1), () {
+        add(UpdateCells());
+      });
     });
 
     on<UpdateCells>((event, emit) {
@@ -50,7 +53,11 @@ class GameCubit extends Bloc<GameEvent, GameState> {
   }
 
   void loadGame(event, emit) {
-    add(GenerateNewCells());
+    emit(GameInfo());
+
+    Timer(Duration(seconds: 2), () {
+      add(GenerateNewCells());
+    });
   }
 
   void clearShowedCells(event, emit) async {

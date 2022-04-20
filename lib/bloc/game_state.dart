@@ -13,4 +13,6 @@ class GameTimeOut extends GameState {}
 
 class GameLoading extends GameState {}
 
+class GameInfo extends GameState {}
+
 class ItemTapError extends GameState {}

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class ObjectModel extends Equatable {
+
   final int index;
   final bool isActive;
   final bool isTapped;
