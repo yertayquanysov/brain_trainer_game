@@ -34,7 +34,7 @@ class GameRepositoryImpl implements GameRepository {
 
   int getScore() => _successWinCount;
 
-  List<ObjectModel> clearActiveObjects() {
+  List<ObjectModel> newObjects() {
     return _generatedObjects.map((e) => e.resetState()).toList();
   }
 
@@ -46,16 +46,18 @@ class GameRepositoryImpl implements GameRepository {
     lastActivePositions =
         generateItemPositions(positionCount: 3, max: gridCount);
 
-    final List<ObjectModel> newObjects = clearActiveObjects();
+    List<ObjectModel> newCells = newObjects();
+
+    logger.i(lastActivePositions);
 
     lastActivePositions.forEach((index) {
-      newObjects[index].copyWith(
+      newCells[index] = newCells[index].copyWith(
         isActive: true,
         isColored: true,
       );
     });
 
-    _generatedObjects = newObjects;
+    _generatedObjects = newCells;
 
     return _generatedObjects;
   }
@@ -63,7 +65,7 @@ class GameRepositoryImpl implements GameRepository {
   void onGridTap(ObjectModel cell, VoidCallback onRefresh) {
     if (cell.isActive && !cell.isTapped) {
       _successTapCount += 1;
-      _generatedObjects[cell.index].copyWith(isTapped: true);
+      _generatedObjects[cell.index] = _generatedObjects[cell.index].copyWith(isTapped: true);
     } else {
       _failedTapCount += 1;
     }

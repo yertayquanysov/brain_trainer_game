@@ -6,15 +6,20 @@ class GameInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        padding: const EdgeInsets.all(50),
-        child: Text(
-          "Жасырылған ұяшықтарды табу керек.",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black45,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(50),
+            child: Text(
+              "Жасырылған ұяшықтарды табу керек.",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black45,
+              ),
+            ),
           ),
-        ),
+          LinearProgressIndicator(),
+        ],
       ),
     );
   }

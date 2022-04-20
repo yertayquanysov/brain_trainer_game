@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/bloc/game_event.dart';
+import 'package:gamx/extensions.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
@@ -24,14 +25,13 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     });
 
     on<GenerateNewCells>((event, emit) {
-
       _items = _gameRepository.showClickableItems();
       _activeCells = _items.where((cell) => cell.isActive == true).toList();
       _score = _gameRepository.getScore();
 
-      Timer(Duration(seconds: 1), () {
-        add(UpdateCells());
-      });
+      logger.w(_activeCells);
+
+      UpdateCells();
     });
 
     on<UpdateCells>((event, emit) {
@@ -55,14 +55,12 @@ class GameCubit extends Bloc<GameEvent, GameState> {
   void loadGame(event, emit) {
     emit(GameInfo());
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 1), () {
       add(GenerateNewCells());
     });
   }
 
   void clearShowedCells(event, emit) async {
-    await Future.delayed(Duration(seconds: 2));
-
     _items = _items.map((e) => e.copyWith(isColored: false)).toList();
     _clickDisabled = false;
 
@@ -75,9 +73,11 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     if (tappedCell.isColored || tappedCell.isError || _clickDisabled) return;
 
     if (_activeCells.contains(tappedCell)) {
-      _items[tappedCell.index].copyWith(isColored: true);
+      _items[tappedCell.index] =
+          _items[tappedCell.index].copyWith(isColored: true);
     } else {
-      _items[tappedCell.index].copyWith(isError: true);
+      _items[tappedCell.index] =
+          _items[tappedCell.index].copyWith(isError: true);
     }
 
     add(UpdateCells());
