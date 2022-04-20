@@ -94,7 +94,7 @@ class _GameScreenState extends State<GameScreen> {
 
   Color changeColor(ObjectModel grid) {
 
-    if (grid.isColored || grid.isActive) {
+    if (grid.isColored) {
       return Colors.greenAccent;
     }
 

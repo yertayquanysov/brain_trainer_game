@@ -29,27 +29,20 @@ class GameCubit extends Bloc<GameEvent, GameState> {
       _activeCells = _items.where((cell) => cell.isActive == true).toList();
       _score = _gameRepository.getScore();
 
-      logger.w(_activeCells);
+      add(UpdateCells(_items));
 
-      UpdateCells();
+      Timer(Duration(seconds: 2), () {
+        add(ClearCells());
+      });
     });
 
     on<UpdateCells>((event, emit) {
-      emit(GameLoaded(_items, _score));
+      emit(GameLoaded(event.cells, _score));
     });
 
     on<ClearCells>(clearShowedCells);
 
     on<ItemTapped>(checkTappedCell);
-  }
-
-  @override
-  void onEvent(GameEvent event) {
-    super.onEvent(event);
-
-    if (event is GenerateNewCells) {
-      add(ClearCells());
-    }
   }
 
   void loadGame(event, emit) {
@@ -60,11 +53,15 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     });
   }
 
-  void clearShowedCells(event, emit) async {
-    _items = _items.map((e) => e.copyWith(isColored: false)).toList();
+  void clearShowedCells(event, emit) {
+    logger.i("Clear showed items");
+
+    _items =
+        _items.map<ObjectModel>((e) => e.copyWith(isColored: false)).toList();
+
     _clickDisabled = false;
 
-    add(UpdateCells());
+    add(UpdateCells(_items));
   }
 
   void checkTappedCell(event, emit) {
@@ -80,7 +77,7 @@ class GameCubit extends Bloc<GameEvent, GameState> {
           _items[tappedCell.index].copyWith(isError: true);
     }
 
-    add(UpdateCells());
+    add(UpdateCells(_items));
 
     _gameRepository.onGridTap(tappedCell, () {
       add(GenerateNewCells());
