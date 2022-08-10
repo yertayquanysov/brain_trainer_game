@@ -45,7 +45,7 @@ class _GameScreenState extends State<GameScreen> {
           bloc: _gameCubit,
           listener: (BuildContext context, Object? state) {
             if (state is ItemTapError) {
-              Get.showSnackbar(GetBar(
+              Get.showSnackbar(GetSnackBar(
                 message: "Қате!",
                 duration: Duration(milliseconds: 800),
               ));
