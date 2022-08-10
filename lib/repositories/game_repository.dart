@@ -67,14 +67,8 @@ class GameRepositoryImpl implements GameRepository {
       _successTapCount += 1;
       _generatedObjects[cell.index] = _generatedObjects[cell.index].copyWith(isTapped: true);
     } else {
-      _failedTapCount += 1;
-    }
-
-    if (_failedTapCount == 2) {
       onRefresh();
     }
-
-    logger.i(_failedTapCount);
 
     if (_successTapCount == 3) {
       _successWinCount += 1;

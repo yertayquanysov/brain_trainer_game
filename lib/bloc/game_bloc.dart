@@ -89,7 +89,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     add(UpdateCells(_items));
 
     _gameRepository.onGridTap(tappedCell, () {
-      Timer(Duration(milliseconds: 600), () {
+      Timer(Duration(milliseconds: 300), () {
         add(GenerateNewCells());
       });
     });
