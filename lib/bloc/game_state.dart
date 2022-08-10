@@ -10,7 +10,12 @@ class GameLoaded extends GameState {
   GameLoaded(this.items, this.score, this.displayTime);
 }
 
-class GameTimeOut extends GameState {}
+class GameTimeOut extends GameState {
+
+  GameTimeOut(this.score);
+
+  final int score;
+}
 
 class GameLoading extends GameState {}
 

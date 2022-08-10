@@ -80,7 +80,7 @@ class _GameScreenState extends State<GameScreen> {
             }
 
             if (state is GameTimeOut) {
-              return GameFinished(score: 1);
+              return GameFinished(score: state.score);
             }
 
             return GameProgressBar();

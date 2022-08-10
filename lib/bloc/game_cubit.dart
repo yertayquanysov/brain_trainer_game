@@ -23,10 +23,6 @@ class GameCubit extends Bloc<GameEvent, GameState> {
   GameCubit(this._gameRepository) : super(GameLoading()) {
     on<LoadGame>(loadGame);
 
-    on<GameEnd>((event, emit) {
-      emit(GameTimeOut());
-    });
-
     on<GenerateNewCells>((event, emit) {
       _items = _gameRepository.showClickableItems();
       _activeCells = _items.where((cell) => cell.isActive == true).toList();
@@ -63,7 +59,7 @@ class GameCubit extends Bloc<GameEvent, GameState> {
         logger.i("Start display timer");
 
         if (currentSecond > Config.gameTime) {
-          add(GameEnd());
+          emit(GameTimeOut(_score));
         } else {
           add(UpdateCells(_items));
         }
