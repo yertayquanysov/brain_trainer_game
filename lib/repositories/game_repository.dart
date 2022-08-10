@@ -65,8 +65,7 @@ class GameRepositoryImpl implements GameRepository {
   void onGridTap(ObjectModel cell, VoidCallback onRefresh) {
     if (cell.isActive && !cell.isTapped) {
       _successTapCount += 1;
-      _generatedObjects[cell.index] =
-          _generatedObjects[cell.index].copyWith(isTapped: true);
+      _generatedObjects[cell.index] = _generatedObjects[cell.index].copyWith(isTapped: true);
     } else {
       _failedTapCount += 1;
     }

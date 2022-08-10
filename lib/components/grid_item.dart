@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:superellipse_shape/superellipse_shape.dart';
 
 class GridItem extends StatelessWidget {
   final Color color;
@@ -19,6 +20,9 @@ class GridItem extends StatelessWidget {
         padding: const EdgeInsets.all(5.0),
         child: Material(
           color: color,
+          shape: SuperellipseShape(
+            borderRadius: BorderRadius.circular(18),
+          ),
           child: InkWell(
             onTap: onPressed,
             child: Container(),

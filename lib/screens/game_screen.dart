@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gamx/bloc/game_cubit.dart';
+import 'package:gamx/bloc/game_bloc.dart';
 import 'package:gamx/bloc/game_event.dart';
 import 'package:gamx/bloc/game_state.dart';
 import 'package:gamx/components/game_finished.dart';
@@ -23,14 +23,14 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final GameRepository _gameRepository = GameRepositoryImpl();
-  late final GameCubit _gameCubit;
+  late final GameBloc _gameCubit;
 
   @override
   void initState() {
     super.initState();
 
     _gameRepository.setGridCount(defaultGridCount);
-    _gameCubit = GameCubit(_gameRepository);
+    _gameCubit = GameBloc(_gameRepository);
     _gameCubit.add(LoadGame());
   }
 
