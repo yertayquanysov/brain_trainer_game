@@ -52,7 +52,6 @@ class _GameScreenState extends State<GameScreen> {
             }
           },
           builder: (BuildContext context, state) {
-
             if (state is GameInfo) {
               return GameInfoWidget();
             }
@@ -61,6 +60,14 @@ class _GameScreenState extends State<GameScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Center(
+                    child: Text(
+                      state.displayTime,
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                   Point(score: state.score),
                   Expanded(
                     child: GridView.count(
@@ -93,7 +100,6 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Color changeColor(ObjectModel grid) {
-
     if (grid.isColored) {
       return Colors.greenAccent;
     }

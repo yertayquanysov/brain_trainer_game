@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-var logger = Logger();
+final logger = Logger();
 
 List<int> generateItemPositions({
   required int positionCount,

@@ -6,6 +6,7 @@ import 'package:gamx/extensions.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
+import '../config.dart';
 import 'game_state.dart';
 
 class GameCubit extends Bloc<GameEvent, GameState> {
@@ -13,7 +14,9 @@ class GameCubit extends Bloc<GameEvent, GameState> {
 
   List<ObjectModel> _items = [];
   List<ObjectModel> _activeCells = [];
+
   int _score = 0;
+  int _displayTime = Config.gameTime;
 
   bool _clickDisabled = true;
 
@@ -37,7 +40,7 @@ class GameCubit extends Bloc<GameEvent, GameState> {
     });
 
     on<UpdateCells>((event, emit) {
-      emit(GameLoaded(event.cells, _score));
+      emit(GameLoaded(event.cells, _score, _displayTime.toString()));
     });
 
     on<ClearCells>(clearShowedCells);
@@ -50,6 +53,21 @@ class GameCubit extends Bloc<GameEvent, GameState> {
 
     Timer(Duration(seconds: 1), () {
       add(GenerateNewCells());
+
+      logger.i("Ganereted new cells");
+
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        final currentSecond = timer.tick;
+        _displayTime = Config.gameTime - currentSecond;
+
+        logger.i("Start display timer");
+
+        if (currentSecond > Config.gameTime) {
+          add(GameEnd());
+        } else {
+          add(UpdateCells(_items));
+        }
+      });
     });
   }
 

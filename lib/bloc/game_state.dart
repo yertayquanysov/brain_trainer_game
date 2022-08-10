@@ -5,8 +5,9 @@ abstract class GameState {}
 class GameLoaded extends GameState {
   final List<ObjectModel> items;
   final int score;
+  final String displayTime;
 
-  GameLoaded(this.items, this.score);
+  GameLoaded(this.items, this.score, this.displayTime);
 }
 
 class GameTimeOut extends GameState {}

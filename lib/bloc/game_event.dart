@@ -23,9 +23,7 @@ class ClearCells extends GameEvent {
   List<Object?> get props => [];
 }
 
-
 class UpdateCells extends GameEvent {
-
   final List<ObjectModel> cells;
 
   UpdateCells(this.cells);
@@ -41,4 +39,13 @@ class ItemTapped extends GameEvent {
 
   @override
   List<Object?> get props => [cell];
+}
+
+class UpdateTimeEvent extends GameEvent {
+  UpdateTimeEvent(this.time);
+
+  final int time;
+
+  @override
+  List<Object?> get props => [];
 }
