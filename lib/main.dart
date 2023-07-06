@@ -12,6 +12,7 @@ class App extends StatelessWidget {
       home: SelectLevelScreen(),
       theme: ThemeData(
         textTheme: GoogleFonts.ubuntuTextTheme(),
+        useMaterial3: true,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,

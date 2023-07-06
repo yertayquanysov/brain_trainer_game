@@ -1,4 +1,4 @@
-package kz.ertai.gamx
+package com.example.gamx
 
 import io.flutter.embedding.android.FlutterActivity
 
