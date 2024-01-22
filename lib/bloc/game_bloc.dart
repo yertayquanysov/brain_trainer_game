@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamx/bloc/game_event.dart';
-import 'package:gamx/extensions.dart';
 import 'package:gamx/models/object_model.dart';
 import 'package:gamx/repositories/game_repository.dart';
 
@@ -24,7 +23,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<LoadGame>(loadGame);
 
     on<GenerateNewCells>((event, emit) {
-
       _clickDisabled = true;
 
       _items = _gameRepository.showClickableItems();
@@ -81,9 +79,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (tappedCell.isColored || tappedCell.isError || _clickDisabled) return;
 
     if (_activeCells.contains(tappedCell)) {
-      _items[tappedCell.index] = _items[tappedCell.index].copyWith(isColored: true);
+      _items[tappedCell.index] =
+          _items[tappedCell.index].copyWith(isColored: true);
     } else {
-      _items[tappedCell.index] = _items[tappedCell.index].copyWith(isError: true);
+      _items[tappedCell.index] =
+          _items[tappedCell.index].copyWith(isError: true);
     }
 
     add(UpdateCells(_items));

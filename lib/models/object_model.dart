@@ -1,13 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 class ObjectModel extends Equatable {
-
-  final int index;
-  final bool isActive;
-  final bool isTapped;
-  final bool isColored;
-  final bool isError;
-
   const ObjectModel({
     required this.index,
     this.isActive = false,
@@ -15,6 +8,12 @@ class ObjectModel extends Equatable {
     this.isColored = false,
     this.isError = false,
   });
+
+  final int index;
+  final bool isActive;
+  final bool isTapped;
+  final bool isColored;
+  final bool isError;
 
   ObjectModel resetState() {
     return ObjectModel(
